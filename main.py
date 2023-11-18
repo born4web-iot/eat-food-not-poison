@@ -52,44 +52,32 @@ def createFood(pocet2: number):
             """),
             SpriteKind.food)
         piece_of_food.set_position(randint(28, 228), randint(28, 228))
+
+def on_on_overlap(sprite, otherSprite):
+    sprites.destroy(otherSprite)
+    scene.camera_shake(4, 500)
+    info.change_score_by(1)
+    if info.score() == NUMBER_OF_FOOD:
+        game.show_long_text("Time: " + str(game.runtime()), DialogLayout.TOP)
+        game.game_over(True)
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap)
+
+def on_on_overlap2(sprite2, otherSprite2):
+    game.game_over(False)
+sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap2)
+
 piece_of_food: Sprite = None
 piece_of_poison: Sprite = None
+NUMBER_OF_FOOD = 0
 tiles.set_current_tilemap(tilemap("""
-    level1
+    level2
 """))
-eater = sprites.create(img("""
-        ........................
-            ........................
-            ........................
-            ...........ccc..........
-            ...........cccc.........
-            .......ccc..ccccccc.....
-            .......cccccc555555cc...
-            ........ccb5555555555c..
-            .....cc..b555555555555c.
-            .....cccb55555bcc555555c
-            ......cb555555555c55d55c
-            ......b5555555555555555c
-            ...cc.b555dd5555bb1bbbc.
-            ....ccd55ddddd5bbbb335c.
-            ...ccbdddddddd5bbbb335c.
-            .ccccddddddddd55bbb335c.
-            cdcccdddddb55bb5bb3335c.
-            cddbddddddb555bb5b3335c.
-            cddddddddddb5555b53335c.
-            ccddddddbd55bb55c5555c..
-            .ccddddbbbdd55cccbccc...
-            ...ccbbbcbddddccdddc....
-            .....ccccdd555dccccc....
-            ........cccccccc........
-    """),
-    SpriteKind.player)
+eater = sprites.create(assets.image("""
+    Eater
+"""), SpriteKind.player)
 eater.set_position(25, 25)
 controller.move_sprite(eater, 100, 100)
 scene.camera_follow_sprite(eater)
-createFood(10)
+NUMBER_OF_FOOD = 10
+createFood(NUMBER_OF_FOOD)
 createPoison(5)
-
-def on_update_interval():
-    pass
-game.on_update_interval(1000, on_update_interval)

@@ -52,15 +52,25 @@ function createFood (pocet: number) {
         piece_of_food.setPosition(randint(28, 228), randint(28, 228))
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    scene.cameraShake(4, 500)
+    info.changeScoreBy(1)
+    if (info.score() == NUMBER_OF_FOOD) {
+        game.showLongText("Time: " + game.runtime(), DialogLayout.Top)
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    game.gameOver(false)
+})
 let piece_of_food: Sprite = null
 let piece_of_poison: Sprite = null
-tiles.setCurrentTilemap(tilemap`level1`)
+let NUMBER_OF_FOOD = 0
+tiles.setCurrentTilemap(tilemap`level2`)
 let eater = sprites.create(assets.image`Eater`, SpriteKind.Player)
 eater.setPosition(25, 25)
 controller.moveSprite(eater, 100, 100)
 scene.cameraFollowSprite(eater)
-createFood(10)
+NUMBER_OF_FOOD = 10
+createFood(NUMBER_OF_FOOD)
 createPoison(5)
-game.onUpdateInterval(1000, function () {
-	
-})
