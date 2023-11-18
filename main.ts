@@ -57,7 +57,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     scene.cameraShake(4, 500)
     info.changeScoreBy(1)
     if (info.score() == NUMBER_OF_FOOD) {
-        game.showLongText("Time: " + game.runtime(), DialogLayout.Top)
+        game.showLongText("Time: " + game.runtime() / 1000 + "s", DialogLayout.Top)
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -71,6 +71,7 @@ let eater = sprites.create(assets.image`Eater`, SpriteKind.Player)
 eater.setPosition(25, 25)
 controller.moveSprite(eater, 100, 100)
 scene.cameraFollowSprite(eater)
-NUMBER_OF_FOOD = 10
+NUMBER_OF_FOOD = 15
+let NUMBER_OF_POISON = 10
 createFood(NUMBER_OF_FOOD)
-createPoison(5)
+createPoison(NUMBER_OF_POISON)
